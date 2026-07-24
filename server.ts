@@ -4,7 +4,7 @@ import fs from "fs";
 import { createServer as createViteServer } from "vite";
 
 const app = express();
-const PORT = 3000;
+const PORT = process.env.PORT || 3000;
 
 app.use(express.json());
 
@@ -246,8 +246,9 @@ async function startServer() {
     });
   }
 
-  app.listen(PORT, "0.0.0.0", () => {
-    console.log(`Server Mares Lava-jato running on http://0.0.0.0:${PORT}`);
+  const portNum = Number(PORT) || 3000;
+  app.listen(portNum, "0.0.0.0", () => {
+    console.log(`Server Mares Lava-jato running on port ${PORT}`);
   });
 }
 
