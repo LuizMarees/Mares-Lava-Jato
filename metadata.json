@@ -1,0 +1,6 @@
+{
+  "name": "Mares Lava-jato",
+  "description": "Sistema ultra simples e rápido para controle diário de lavagens e caixa do Mares Lava-jato.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
