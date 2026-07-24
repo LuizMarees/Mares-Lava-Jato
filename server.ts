@@ -231,19 +231,21 @@ app.post("/api/sync", (req, res) => {
 
 // Mount Vite middleware or static files
 async function startServer() {
-  if (process.env.NODE_ENV !== "production") {
+  const distPath = path.join(process.cwd(), "dist");
+  const hasDistIndex = fs.existsSync(path.join(distPath, "index.html"));
+
+  if (process.env.NODE_ENV === "production" || hasDistIndex) {
+    app.use(express.static(distPath));
+    app.get("*", (_req, res) => {
+      res.sendFile(path.join(distPath, "index.html"));
+    });
+  } else {
     const { createServer: createViteServer } = await import("vite");
     const vite = await createViteServer({
       server: { middlewareMode: true },
       appType: "spa",
     });
     app.use(vite.middlewares);
-  } else {
-    const distPath = path.join(process.cwd(), "dist");
-    app.use(express.static(distPath));
-    app.get("*", (_req, res) => {
-      res.sendFile(path.join(distPath, "index.html"));
-    });
   }
 
   const portNum = Number(PORT) || 3000;
